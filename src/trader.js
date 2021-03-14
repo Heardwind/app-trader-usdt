@@ -36,31 +36,31 @@ const notifier = require('./notifiers')(trading_pairs);
 //////////////////////////////////////////////////////////////////////////////////
 
 const margin_pairs = [
-    "ADABTC",
-    "ATOMBTC",
-    "BATBTC",
-    "BCHBTC",
-    "BNBBTC",
-    "DASHBTC",
-    "EOSBTC",
-    "ETCBTC",
-    "ETHBTC",
-    "IOSTBTC",
-    "IOTABTC",
-    "LINKBTC",
-    "LTCBTC",
-    "MATICBTC",
-    "NEOBTC",
-    "ONTBTC",
-    "QTUMBTC",
-    "RVNBTC",
-    "TRXBTC",
-    "VETBTC",
-    "XLMBTC",
-    "XMRBTC",
-    "XRPBTC",
-    "XTZBTC",
-    "ZECBTC",
+    "ADAUSDT",
+    "ATOMUSDT",
+    "BATUSDT",
+    "BCHUSDT",
+    "BNBUSDT",
+    "DASHUSDT",
+    "EOSUSDT",
+    "ETCUSDT",
+    "ETHUSDT",
+    "IOSTUSDT",
+    "IOTAUSDT",
+    "LINKUSDT",
+    "LTCUSDT",
+    "MATICUSDT",
+    "NEOUSDT",
+    "ONTUSDT",
+    "QTUMUSDT",
+    "RVNUSDT",
+    "TRXUSDT",
+    "VETUSDT",
+    "XLMUSDT",
+    "XMRUSDT",
+    "XRPUSDT",
+    "XTZUSDT",
+    "ZECUSDT",
 ]
 
 //////////////////////////////////////////////////////////////////////////////////
@@ -114,17 +114,17 @@ socket.on("buy_signal", async (signal) => {
                 Number(user_payload[tresult].buy_amount)
             )
 
-            const alt = signal.pair.replace("BTC", "")
-            if (minimums[alt + "BTC"] && minimums[alt + "BTC"].minQty) {
+            const alt = signal.pair.replace("USDT", "")
+            if (minimums[alt + "USDT"] && minimums[alt + "USDT"].minQty) {
                 const buy_amount = new BigNumber(
                     user_payload[tresult].buy_amount
                 )
                 const btc_qty = buy_amount.dividedBy(signal.price)
                 const qty = bnb_client.roundStep(
                     btc_qty,
-                    minimums[alt + "BTC"].stepSize
+                    minimums[alt + "USDT"].stepSize
                 )
-                console.log("Market Buy ==> " + qty + " - " + alt + "BTC")
+                console.log("Market Buy ==> " + qty + " - " + alt + "USDT")
                 ////
                 const traded_buy_signal = {
                     key: bva_key,
@@ -136,9 +136,9 @@ socket.on("buy_signal", async (signal) => {
                 }
                 ////
                 if (user_payload[tresult].trading_type === "real") {
-                    if (margin_pairs.includes(alt + "BTC")) {
+                    if (margin_pairs.includes(alt + "USDT")) {
                         bnb_client.mgMarketBuy(
-                            alt + "BTC",
+                            alt + "USDT",
                             Number(qty),
                             (error, response) => {
                                 if (error) {
@@ -163,13 +163,13 @@ socket.on("buy_signal", async (signal) => {
                         )
                     } else {
                         bnb_client.marketBuy(
-                            alt + "BTC",
+                            alt + "USDT",
                             Number(qty),
                             (error, response) => {
                                 if (error) {
                                     console.log(
                                         "ERROR 7991117 marketBuy",
-                                        alt + "BTC",
+                                        alt + "USDT",
                                         Number(qty),
                                         error.body
                                     )
@@ -185,7 +185,7 @@ socket.on("buy_signal", async (signal) => {
 
                                 console.log(
                                     "SUCESS 99111 marketBuy",
-                                    alt + "BTC",
+                                    alt + "USDT",
                                     Number(qty)
                                 )
                                 socket.emit(
@@ -236,13 +236,13 @@ socket.on("buy_signal", async (signal) => {
                 Number(trading_qty[signal.pair + signal.stratid])
             )
 
-            const alt = signal.pair.replace("BTC", "")
-            if (minimums[alt + "BTC"].minQty) {
+            const alt = signal.pair.replace("USDT", "")
+            if (minimums[alt + "USDT"].minQty) {
                 const qty = Number(
                     trading_qty[signal.pair + signal.stratid]
                 )
                 console.log(
-                    "QTY ====mgMarketBuy===> " + qty + " - " + alt + "BTC"
+                    "QTY ====mgMarketBuy===> " + qty + " - " + alt + "USDT"
                 )
                 /////
                 const traded_buy_signal = {
@@ -256,7 +256,7 @@ socket.on("buy_signal", async (signal) => {
                 /////
                 if (user_payload[tresult].trading_type === "real") {
                     bnb_client.mgMarketBuy(
-                        alt + "BTC",
+                        alt + "USDT",
                         Number(qty),
                         (error, response) => {
                             if (error) {
@@ -356,18 +356,18 @@ socket.on("sell_signal", async (signal) => {
             )
 
             console.log("const alt = signal.pair.replace('BTC', '')")
-            const alt = signal.pair.replace("BTC", "")
-            if (minimums[alt + "BTC"] && minimums[alt + "BTC"].minQty) {
+            const alt = signal.pair.replace("USDT", "")
+            if (minimums[alt + "USDT"] && minimums[alt + "USDT"].minQty) {
                 const buy_amount = new BigNumber(
                     user_payload[tresult].buy_amount
                 )
                 const btc_qty = buy_amount.dividedBy(signal.price)
                 const qty = bnb_client.roundStep(
                     btc_qty,
-                    minimums[alt + "BTC"].stepSize
+                    minimums[alt + "USDT"].stepSize
                 )
                 console.log(
-                    "QTY ===mgBorrow===> " + qty + " - " + alt + "BTC"
+                    "QTY ===mgBorrow===> " + qty + " - " + alt + "USDT"
                 )
                 const traded_sell_signal = {
                     key: bva_key,
@@ -397,7 +397,7 @@ socket.on("sell_signal", async (signal) => {
                                 "SUCESS 444444444 mgMarketSell 44444444"
                             )
                             bnb_client.mgMarketSell(
-                                alt + "BTC",
+                                alt + "USDT",
                                 Number(qty),
                                 (error, response) => {
                                     if (error) {
@@ -466,8 +466,8 @@ socket.on("sell_signal", async (signal) => {
                 Number(trading_qty[signal.pair + signal.stratid])
             )
 
-            const alt = signal.pair.replace("BTC", "")
-            if (minimums[alt + "BTC"] && minimums[alt + "BTC"].minQty) {
+            const alt = signal.pair.replace("USDT", "")
+            if (minimums[alt + "USDT"] && minimums[alt + "USDT"].minQty) {
                 const qty = trading_qty[signal.pair + signal.stratid]
                 ///
                 const traded_sell_signal = {
@@ -480,16 +480,16 @@ socket.on("sell_signal", async (signal) => {
                 }
                 ///
                 if (user_payload[tresult].trading_type === "real") {
-                    if (margin_pairs.includes(alt + "BTC")) {
+                    if (margin_pairs.includes(alt + "USDT")) {
                         console.log(
                             "QTY =======mgMarketSell======> " +
                             qty +
                             " - " +
                             alt +
-                            "BTC"
+                            "USDT"
                         )
                         bnb_client.mgMarketSell(
-                            alt + "BTC",
+                            alt + "USDT",
                             Number(qty),
                             (error, response) => {
                                 if (error) {
@@ -529,16 +529,16 @@ socket.on("sell_signal", async (signal) => {
                             qty +
                             " - " +
                             alt +
-                            "BTC"
+                            "USDT"
                         )
                         bnb_client.marketSell(
-                            alt + "BTC",
+                            alt + "USDT",
                             Number(qty),
                             (error, response) => {
                                 if (error) {
                                     console.log(
                                         "ERROR 7213331117 marketSell",
-                                        alt + "BTC",
+                                        alt + "USDT",
                                         Number(qty),
                                         JSON.stringify(error)
                                     )
@@ -556,7 +556,7 @@ socket.on("sell_signal", async (signal) => {
 
                                 console.log(
                                     "SUCESS 711000111 marketSell",
-                                    alt + "BTC",
+                                    alt + "USDT",
                                     Number(qty)
                                 )
                                 socket.emit(
@@ -633,20 +633,20 @@ socket.on("close_traded_signal", async (signal) => {
             if (user_payload[tresult].trading_type === "real") {
                 console.log(signal.pair, " ===---==> SELL ", signal.qty)
 
-                const alt = signal.pair.replace("BTC", "")
-                if (minimums[alt + "BTC"] && minimums[alt + "BTC"].minQty) {
+                const alt = signal.pair.replace("USDT", "")
+                if (minimums[alt + "USDT"] && minimums[alt + "USDT"].minQty) {
                     const qty = signal.qty
                     ///
-                    if (margin_pairs.includes(alt + "BTC")) {
+                    if (margin_pairs.includes(alt + "USDT")) {
                         console.log(
                             "CLOSE =========mgMarketSell=========> " +
                             qty +
                             " - " +
                             alt +
-                            "BTC"
+                            "USDT"
                         )
                         bnb_client.mgMarketSell(
-                            alt + "BTC",
+                            alt + "USDT",
                             Number(qty),
                             (error, response) => {
                                 if (error) {
@@ -681,10 +681,10 @@ socket.on("close_traded_signal", async (signal) => {
                             qty +
                             " - " +
                             alt +
-                            "BTC"
+                            "USDT"
                         )
                         bnb_client.marketSell(
-                            alt + "BTC",
+                            alt + "USDT",
                             Number(qty),
                             (error, response) => {
                                 if (error) {
@@ -759,12 +759,12 @@ socket.on("close_traded_signal", async (signal) => {
             if (user_payload[tresult].trading_type === "real") {
                 console.log(signal.pair, " ---==---> BUY ", signal.qty)
 
-                const alt = signal.pair.replace("BTC", "")
-                if (minimums[alt + "BTC"] && minimums[alt + "BTC"].minQty) {
+                const alt = signal.pair.replace("USDT", "")
+                if (minimums[alt + "USDT"] && minimums[alt + "USDT"].minQty) {
                     const qty = trading_qty[signal.pair + signal.stratid]
-                    console.log("QTY ==> " + qty + " - " + alt + "BTC")
+                    console.log("QTY ==> " + qty + " - " + alt + "USDT")
                     bnb_client.mgMarketBuy(
-                        alt + "BTC",
+                        alt + "USDT",
                         Number(qty),
                         (error, response) => {
                             if (error) {
